@@ -2,12 +2,14 @@
 #include "output.h"
 
 #define MIN(a,b) ((a)<(b)?(a):(b))
-
+#define UNTEN 30
 char *text;
 int textoffset=0;
 
 int bottomlinepos;
 char line[12];
+
+
 
 void neueletztezeile(int pos) {
     int i;
@@ -16,7 +18,7 @@ void neueletztezeile(int pos) {
         line[i] = pos + i >= strlen(text) ? ' ' : text[pos + i];
     }
     line[11] = 0;
-    bottomlinepos = YSIZE;
+    bottomlinepos = UNTEN;
 }
 
 void main(int argc, char *argv[]) {
@@ -35,7 +37,7 @@ void main(int argc, char *argv[]) {
         scrollup(1);
         bottomlinepos--;
         
-        if (bottomlinepos<=YSIZE-10) {
+        if (bottomlinepos<=UNTEN-10) {
             printf("neue letzte zeile\n");
             textoffset+=11;
             if (textoffset > strlen(text))
