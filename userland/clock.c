@@ -7,25 +7,29 @@ int main(int argc, char *argv[]) {
     struct tm *tl;
 	time_t t;    
 	int x;
+        int i, strwidth;
+
+
+    if (argc<2) {
+        printf("geh weg");
+        exit(-42);
+    }
+    
+    strwidth = stringwidth(argv[1], 1, -2) * 2;
 
     while(1) {
-	    char buf[1000];
+       char buf[1000];
+
+       t = time(NULL);
+       tl = localtime(&t);
+
         clearscreen();
-	t=time(NULL);
-        tl=localtime(&t);
-	sprintf(buf, "%02d:%02d", tl->tm_hour, tl->tm_min);
-        putstring(buf, 10,          2,  2, -3);
-	for (x=0; x<60; x++) {
-		setpixel(10+x, 39);
-		if (x<tl->tm_sec){
-			setpixel(10+x, 40);
-			setpixel(10+x, 41);
-		}
-	}
 	for (x=0; x<20; x++) {
 		setpixel(50+sin(tl->tm_sec/60.0*3.14*2)*x, 33-cos(tl->tm_sec/60.0*3.14*2)*x);
+        }
 	for (x=0; x<15; x++) {
 		setpixel(50+sin(tl->tm_min/60.0*3.14*2)*x, 33-cos(tl->tm_min/60.0*3.14*2)*x);
+        }
 	for (x=0; x<10; x++) {
 		setpixel(50+sin(tl->tm_hour/60.0*3.14*2)*x, 33-cos(tl->tm_hour/60.0*3.14*2)*x);
 		
@@ -34,8 +38,10 @@ int main(int argc, char *argv[]) {
 		setpixel(-sin(x/100.0*3.14*2)*20+50, -cos(x/100.0*3.14*2)*20+33);
 		
         }
+        putstring(argv[1], -(i++%strwidth),          8+sin(i/3.0)*8,  1, -2);
+        putstring(argv[1], -((i*2)%strwidth),          32+sin(i/3.0)*8,  1, -2);
         writescreen();
-        usleep(500000);
+        usleep(50000);
     }
     return 0;
 }
