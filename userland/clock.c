@@ -23,11 +23,11 @@ int main(int argc, char *argv[]) {
 		}
 	}
 	for (x=0; x<20; x++) {
-		setpixel(-sin(tl->tm_sec/60.0*3.14*2)*x+50, -cos(tl->tm_sec/60.0*3.14*2)*x+33);
+		setpixel(50-sin(tl->tm_sec/60.0*3.14*2)*x, 33-cos(tl->tm_sec/60.0*3.14*2)*x);
 		
         }
 	for (x=0; x<100; x++) {
-		setpixel(-sin(x/100*3.14*2)*20+50, -cos(x/100*3.14*2)*20+33);
+		setpixel(-sin(x/100.0*3.14*2)*20+50, -cos(x/100.0*3.14*2)*20+33);
 		
         }
         writescreen();
