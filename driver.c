@@ -38,8 +38,10 @@
 #  define LDEBUG(fmt, args...)
 #endif
 
-#define LCD_SET(adress, sig) outb(inb(adress) | sig, adress)
-#define LCD_UNSET(adress, sig) outb(inb(adress) & ~sig, adress)
+#define LCD_SET(num, sig) lcd_status[(num)] |= sig; \
+                          outb(lcd_status[(num)], (PORT_BASE + (num)))
+#define LCD_UNSET(num, sig) lcd_status[(num)] &= ~sig; \
+                            outb(lcd_status[(num)], (PORT_BASE + (num)))
 
 #define LCD_MIN_X 11
 #define LCD_MAX_X (LCD_MIN_X+XSIZE)
@@ -55,89 +57,98 @@ unsigned long lcd_base = 0;
 MODULE_PARM(base, "l");
 
 int lcd_x[LCD_PORTS], lcd_y[LCD_PORTS];
+int lcd_status[LCD_PORTS];
 
-void lcd_send_command(unsigned long address, unsigned char data) {
+void lcd_send_command(unsigned int num, unsigned char data) {
    int i;
    unsigned char send;
 
    /* RES = 1, RS = 0, SCL = 1, CS = 0 */
-   LCD_UNSET(address, LCD_PIN_RS);
-   LCD_SET(address, LCD_PIN_SCL);
-   LCD_UNSET(address, LCD_PIN_CS);
+   LCD_UNSET(num, LCD_PIN_RS);
+   LCD_SET(num, LCD_PIN_SCL);
+   LCD_UNSET(num, LCD_PIN_CS);
+
 
    for (i=0; i<8; i++) {
       send = 0;
 
-      if (data & (128 >> i)) 
-         LCD_SET(address, LCD_PIN_SI);
-      else
-         LCD_UNSET(address, LCD_PIN_SI);
+      if (data & (128 >> i)) {
+         LCD_SET(num, LCD_PIN_SI);
+      } else {
+         LCD_UNSET(num, LCD_PIN_SI);
+      }
 
       /* ack */
-      LCD_UNSET(address, LCD_PIN_SCL);
-      LCD_SET(address, LCD_PIN_SCL);
+      LCD_UNSET(num, LCD_PIN_SCL);
+      LCD_SET(num, LCD_PIN_SCL);
    }
 
-   LCD_SET(address, LCD_PIN_CS);
+   LCD_SET(num, LCD_PIN_CS);
 }
 
-void lcd_send_data(unsigned long address, unsigned char data) {
+void lcd_send_data(unsigned int num, unsigned char data) {
    int i;
    unsigned char send;
 
    /* RES = 1, RS = 1, SCL = 1, CS = 0 */
-   LCD_SET(address, LCD_PIN_RS);
-   LCD_SET(address, LCD_PIN_SCL);
-   LCD_UNSET(address, LCD_PIN_CS);
+   LCD_SET(num, LCD_PIN_RS);
+   LCD_SET(num, LCD_PIN_SCL);
+   LCD_UNSET(num, LCD_PIN_CS);
 
    for (i=0; i<8; i++) {
       send = 0;
 
-      if (data & (128 >> i)) 
-         LCD_SET(address, LCD_PIN_SI);
-      else
-         LCD_UNSET(address, LCD_PIN_SI);
+      if (data & (128 >> i)) {
+         LCD_SET(num, LCD_PIN_SI);
+      } else {
+         LCD_UNSET(num, LCD_PIN_SI);
+      }
 
       /* ack */
-      LCD_UNSET(address, LCD_PIN_SCL);
-      LCD_SET(address, LCD_PIN_SCL);
+      LCD_UNSET(num, LCD_PIN_SCL);
+      LCD_SET(num, LCD_PIN_SCL);
    }
 
-   LCD_SET(address, LCD_PIN_CS);
+   LCD_SET(num, LCD_PIN_CS);
 }
 
-void lcd_init(unsigned long address) {
-   LCD_SET(address, LCD_PIN_VCC);
-   LCD_UNSET(address, LCD_PIN_RES);
-   LCD_SET(address, LCD_PIN_RES);
+void lcd_init(unsigned int num) {
+   lcd_status[num] = 0;
 
-   lcd_send_command(address, 226);      /* ResetCommand */
-   lcd_send_command(address, 161);      /* ADCL */
-   lcd_send_command(address, 163);      /* SelBias9 */
-   lcd_send_command(address, 0x2f);     /* VConverterOn */
-   lcd_send_command(address, 129);      /* SetEVC */
-   lcd_send_command(address, 25);       /* EVC */
-   lcd_send_command(address, 175);      /* Dispon */
-   lcd_send_command(address, 197);      /* EntDispon */
-   lcd_send_command(address, 128+64+8); /* SHLR */
+   LCD_SET(num, LCD_PIN_VCC);
+   udelay(200);
+   LCD_UNSET(num, LCD_PIN_RES);
+   udelay(200);
+   LCD_SET(num, LCD_PIN_RES);
+   udelay(200);
 
-   lcd_send_command(address, 176);
-   lcd_send_command(address, 16);
+   lcd_send_command(num, 226);      /* ResetCommand */
+   lcd_send_command(num, 161);      /* ADCL */
+   lcd_send_command(num, 163);      /* SelBias9 */
+   lcd_send_command(num, 0x2f);     /* VConverterOn */
+   lcd_send_command(num, 129);      /* SetEVC */
+   lcd_send_command(num, 25);       /* EVC */
+   lcd_send_command(num, 175);      /* Dispon */
+   lcd_send_command(num, 197);      /* EntDispon */
+   lcd_send_command(num, 128+64+8); /* SHLR */
+   lcd_send_command(num, 64);       /* Init Display Line */
+
+   lcd_send_command(num, 176);
+   lcd_send_command(num, 16);
 }
 
 int lcd_open (struct inode *inode, struct file *filp)
 {
    int port = (MINOR(inode->i_rdev)&0x0f);
-   unsigned long address = lcd_base + port;
 
    LDEBUG("lcd_open\n");
    MOD_INC_USE_COUNT;
 
    lcd_x[port] = LCD_MIN_X;
    lcd_y[port] = LCD_MIN_Y;
-   lcd_send_command(address, 176 + lcd_y[port]);
-   lcd_send_command(address, 16);
-   lcd_send_command(address, LCD_MIN_X);
+   lcd_send_command(port, 176 + lcd_y[port]);
+   lcd_send_command(port, 16);
+   lcd_send_command(port, LCD_MIN_X);
 
    return 0;
 }
@@ -160,7 +171,6 @@ ssize_t do_lcd_write (struct inode *inode, struct file *filp, const char *buf,
                 size_t count, loff_t *f_pos)
 {
    int retval = count, port = (MINOR(inode->i_rdev)&0x0f);
-   unsigned long address = lcd_base + port;
    unsigned char *kbuf=kmalloc(count, GFP_KERNEL), *ptr;
    
     if (!kbuf) return -ENOMEM;
@@ -169,16 +179,16 @@ ssize_t do_lcd_write (struct inode *inode, struct file *filp, const char *buf,
     ptr=kbuf;
     
     while (count--) {
-       lcd_send_data(address, *(ptr++));
+       lcd_send_data(port, *(ptr++));
 
        if (++lcd_x[port] >= LCD_MAX_X) {
           lcd_x[port] = LCD_MIN_X;
 
           if (++lcd_y[port] >= LCD_MAX_Y)
              lcd_y[port] = 0;
-          lcd_send_command(address, 176 + lcd_y[port]);
-          lcd_send_command(address, 16);
-          lcd_send_command(address, LCD_MIN_X);
+          lcd_send_command(port, 176 + lcd_y[port]);
+          lcd_send_command(port, 16);
+          lcd_send_command(port, LCD_MIN_X);
        }
 
        wmb();
@@ -228,7 +238,8 @@ int init_module(void) {
       return result;
    }
 
-   lcd_init(PORT_BASE);
+   /* hardc0ded */
+   lcd_init(0);
 
    return 0;
 }
