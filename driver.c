@@ -40,10 +40,11 @@
 #define LCD_SET(adress, sig) outb(inb(adress) | sig, adress)
 #define LCD_UNSET(adress, sig) outb(inb(adress) & ~sig, adress)
 
-#define LCD_MAX_X XSIZE
 #define LCD_MIN_X 11
-#define LCD_MAX_Y BANKS
+#define LCD_MAX_X (LCD_MIN_X+XSIZE)
+
 #define LCD_MIN_Y 0
+#define LCD_MAX_Y 8
 
 static int major = 253; /* dynamic by default */
 MODULE_PARM(major, "i");
@@ -172,7 +173,7 @@ ssize_t do_lcd_write (struct inode *inode, struct file *filp, const char *buf,
        lcd_send_data(address, *(ptr++));
 
        if (lcd_x[port]++ >= LCD_MAX_X) {
-          lcd_x[port] = 0;
+          lcd_x[port] = LCD_MIN_X;
 
           if (lcd_y[port]++ >= LCD_MAX_Y)
              lcd_y[port] = 0;
