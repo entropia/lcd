@@ -28,6 +28,9 @@ test: test.o output.o
 manuel: manuel.o output.o
 	${GCC} ${CFLAGS} ${LDFLAGS} manuel.o output.o -o manuel
 
+pong: pong.o output.o
+	${GCC} ${CFLAGS} ${LDFLAGS} pong.o output.o -o pong
+
 clean:
 	rm -f plane scroller  clock test manuel
 	rm -f *.o *~ core

@@ -33,8 +33,8 @@ int main(int argc, char *argv[]) {
 		setpixel(-sin(x/100.0*3.14*2)*20+50, -cos(x/100.0*3.14*2)*20+33);
 		
         }
-        putstring(argv[1], -(i++%strwidth),          8+sin(i/3.0)*8,  1, -2);
-        putstring(argv[1], -((i*2)%strwidth),          32+sin(i/3.0)*8,  1, -2);
+        putstring(argv[1], -(i++%strwidth),          8+sin(i/3.0)*8,  1, -1);
+        putstring(argv[1], -((i*2)%strwidth),          32+sin(i/3.0)*8,  1, -1);
         writescreen();
         usleep(50000);
     }
