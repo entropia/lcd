@@ -7,14 +7,9 @@ int main(int argc, char *argv[]) {
     struct tm *tl;
 	time_t t;    
 	int x;
-        int i, strwidth;
+    int i, strwidth;
 
 
-    if (argc<2) {
-        printf("geh weg");
-        exit(-42);
-    }
-    
     strwidth = stringwidth(argv[1], 1, -2) * 2;
 
     while(1) {
