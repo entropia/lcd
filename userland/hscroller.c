@@ -9,11 +9,11 @@ int textoffset=0;
 int bottomlinepos;
 char line[12];
 
-void neueletztezeile(int charpos) {
-#define CHAR_AT(line, pos) ((pos)>=strlen(line)?' ':line[pos])
+void neueletztezeile(int pos) {
     int i;
+    printf("%d\n", pos);
     for (i=0; i<11; i++) {
-        line[i] = charpos + i >= strlen(text) ? ' ' : text[charpos + i];
+        line[i] = pos + i >= strlen(text) ? ' ' : text[pos + i];
     }
     line[11] = 0;
     bottomlinepos = YSIZE;
@@ -25,6 +25,7 @@ void main(int argc, char *argv[]) {
         printf("geh weg");
         exit(-42);
     }
+    text=argv[1];
     
     neueletztezeile(0);
 
