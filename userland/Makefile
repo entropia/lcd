@@ -13,6 +13,9 @@ all: scroller clock test
 scroller: scroller.o output.o
 	${GCC} ${CFLAGS} ${LDFLAGS} scroller.o output.o -o scroller
 
+scroller-tnt: scroller-tnt.o output.o
+	${GCC} ${CFLAGS} ${LDFLAGS} scroller-tnt.o output.o -o scroller-tnt
+
 clock: clock.o output.o
 	${GCC} ${CFLAGS} ${LDFLAGS} clock.o output.o -o clock
 
