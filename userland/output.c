@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "../dia.h"
+#include "../lcd.h"
 
 // Define für asciitest
 //#define TEST
