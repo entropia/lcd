@@ -78,6 +78,22 @@ void unsetpixel(int x, int y) {
     SCR_AT(x, y)=1;
 }
 
+void setblock(int x1, int y1, int x2, int y2) {
+    int y;
+    if (x1>x2 || y1>y2)
+        return;
+    if (x1<0) x1=0;
+    if (x2>=XSIZE) x2=XSIZE-1;
+    if (y1<0) y1=0;
+    if (y2>=YSIZE) y2=YSIZE-1;
+
+    for (y=y1; y<=y2; y++) {
+        for (x=x1; x<=x2; x++) {
+            SCR_AT(x, y)=1;
+        }
+    }
+}
+
 void putcharacter(char blah, int x, int y, int zoom) {
     int bx, by, zoomx, zoomy;
 
