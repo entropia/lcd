@@ -1,7 +1,7 @@
 GCC=gcc
 # CFLAGS=-pipe -Wall -ggdb -pg
 CFLAGS=-O3 -Wall -g
-LDFLAGS=
+LDFLAGS=-lm
 LIBS=
 
 all: scroller test
