@@ -9,13 +9,14 @@ int main(int argc, char *argv[]) {
         exit(-42);
     }
     
-    strwidth = stringwidth(argv[1], 6, 1);
+    strwidth = stringwidth(argv[1], 6, -5);
 
-    for (i=0; i< strwidth; i+=5) {
+    for (i=0; i< strwidth; i++) {
         clearscreen();
-        putstring(argv[1], -i,          0,  6, 0);
+        putstring(argv[1], -i,          0,  4, -5);
+        putstring(argv[1], -i*2,          36,  1, 0);
         writescreen();
-        usleep(100000);
+        usleep(15000);
     }
     return 0;
 }

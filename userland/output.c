@@ -34,7 +34,6 @@ void writescreen() {
         }
     }
 
-    printf("\n");
 #else    
     char buf[XSIZE*YSIZE/8];
     int bank, x, pos, bit;
@@ -58,7 +57,6 @@ void writescreen() {
     write(devfp, &buf, XSIZE*YSIZE/8);
     close(devfp);
 
-    printf("\n\n");
 #endif
 }
 
