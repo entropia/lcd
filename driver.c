@@ -20,6 +20,7 @@
 #define PORT_BASE 0x378
 
 #define LCD_DEBUG 1
+#undef LCD_DEBUG
 
 #define LCD_PORTS 1
 

@@ -16,9 +16,9 @@ int main(int argc, char *argv[]) {
        clearscreen();
        putstring(argv[1],0,8*0,2,-2);   
        putstring(argv[2],0,8*2,1,-1);   
-       putstring(argv[3],(100-j*2),8*5,1,1);   
+       putstring(argv[3],(100-j*4),8*5,1,1);   
        writescreen();
-       usleep(100000);
+       usleep(200000);
     }
     return 0;
 }

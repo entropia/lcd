@@ -47,6 +47,6 @@ void main() {
       update_ball();
       setblock(ballx, bally, ballx+3, bally+3);
       writescreen();
-      usleep(30000);
+      usleep(50000);
    }
 }
