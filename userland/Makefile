@@ -15,6 +15,8 @@ plane: plane.o output.o
 
 scroller: scroller.o output.o
 	${GCC} ${CFLAGS} ${LDFLAGS} scroller.o output.o -o scroller
+scroller2: scroller2.o output.o
+	${GCC} ${CFLAGS} ${LDFLAGS} scroller2.o output.o -o scroller2
 
 scroller-tnt: scroller-tnt.o output.o
 	${GCC} ${CFLAGS} ${LDFLAGS} scroller-tnt.o output.o -o scroller-tnt
