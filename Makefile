@@ -11,8 +11,11 @@ ifdef CONFIG_SMP
 endif
 
 all: driver.o
+	@echo "Kernel Modul fertig"
+	make -C userland
 
 clean:
 	rm -f *.o *~ core
+	make -C userland clean
 
 
