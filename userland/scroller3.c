@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
     for (j=0; j< strwidth ; j++) {   
        clearscreen();
        putstring(argv[1],0,8*0,2,-2);   
-       putstring(argv[2],0,8*2,2,-2);   
+       putstring(argv[2],0,8*2,1,-1);   
        putstring(argv[3],(100-j*2),8*5,1,1);   
        writescreen();
        usleep(100000);
