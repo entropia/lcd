@@ -1,11 +1,18 @@
 #include <stdio.h>
 #include "output.h"
 
+#define MIN(a,b) ((a)<(b)?(a):(b))
+
 void main() {
-    int i=0;
-    putstring("Sende",10, 8, 2, 0);
-    putstring("pause",10,24, 2, 0);
+    int curline=0;
+
+    if (argc<2) {
+        printf("geh weg");
+        exit(-42);
+    }
+
     while(1) {
+        for 
         scrollup(1);
         writescreen();
         usleep(150000);
