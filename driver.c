@@ -37,6 +37,11 @@
 #define LCD_SET(adress, sig) outb(inb(adress) | sig, adress)
 #define LCD_UNSET(adress, sig) outb(inb(adress) & ~sig, adress)
 
+#define LCD_MAX_X 105
+#define LCD_MIN_X 11
+#define LCD_MAX_Y 8
+#define LCD_MIN_Y 0
+
 static int major = 253; /* dynamic by default */
 MODULE_PARM(major, "i");
 
@@ -44,7 +49,7 @@ static unsigned long base = PORT_BASE;
 unsigned long lcd_base = 0;
 MODULE_PARM(base, "l");
 
-int x[LCD_PORTS], y[LCD_PORTS];
+int lcd_x[LCD_PORTS], lcd_y[LCD_PORTS];
 
 void lcd_send_command(unsigned long address, unsigned char data) {
    int i;
@@ -110,6 +115,9 @@ void lcd_init(unsigned long address) {
    lcd_send_command(address, 175);      /* Dispon */
    lcd_send_command(address, 197);      /* EntDispon */
    lcd_send_command(address, 128+64+8); /* SHLR */
+
+   lcd_send_command(address, 176);
+   lcd_send_command(address, 16);
 }
 
 int lcd_open (struct inode *inode, struct file *filp)
@@ -141,8 +149,8 @@ ssize_t lcd_read(struct file *filp, char *buf, size_t count, loff_t *f_pos)
 ssize_t do_lcd_write (struct inode *inode, struct file *filp, const char *buf,
                 size_t count, loff_t *f_pos)
 {
-   int retval = count;
-   unsigned long address = lcd_base + (MINOR(inode->i_rdev)&0x0f);
+   int retval = count, port = (MINOR(inode->i_rdev)&0x0f);
+   unsigned long address = lcd_base + port;
    unsigned char *kbuf=kmalloc(count, GFP_KERNEL), *ptr;
    
     if (!kbuf) return -ENOMEM;
@@ -152,6 +160,17 @@ ssize_t do_lcd_write (struct inode *inode, struct file *filp, const char *buf,
     
     while (count--) {
        lcd_send_data(address, *(ptr++));
+
+       if (lcd_x[port]++ >= LCD_MAX_X) {
+          lcd_x[port] = 0;
+          lcd_send_command(16);
+          lcd_send_command(LCD_MIN_X);
+
+          if (lcd_y[port]++ >= LCD_MAX_Y)
+             lcd_y[port] = 0;
+          lcd_send_command(176 + lcd_y[port]);
+       }
+
        wmb();
     }
     
@@ -181,7 +200,11 @@ struct file_operations lcd_fops = {
 };
 
 int init_module(void) {
-   int result;
+   int result, i;
+
+   for (i=0; i<LCD_PORTS; i++) {
+      lcd_x[i] = lcd_y[i] = 0;
+   }
    
    lcd_base = base;
 
