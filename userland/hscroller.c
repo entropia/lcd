@@ -10,10 +10,10 @@ int bottomlinepos;
 char line[12];
 
 void neueletztezeile(int charpos) {
-#define CHAR_AT(line, pos) ((pos)>strlen(line)?' ':line[pos])
+#define CHAR_AT(line, pos) ((pos)>=strlen(line)?' ':line[pos])
     int i;
     for (i=0; i<11; i++) {
-        line[i] = CHAR_AT(text, charpos+i);
+        line[i] = charpos + i >= strlen(text) ? ' ' : text[charpos + i];
     }
     line[11] = 0;
     bottomlinepos = YSIZE;
