@@ -1,10 +1,10 @@
 GCC=gcc
 # CFLAGS=-pipe -Wall -ggdb -pg
-CFLAGS=-O3 -Wall
+CFLAGS=-O3 -Wall -g
 LDFLAGS=
 LIBS=
 
-all: scroller
+all: scroller test
 	@echo "Userland Programme fertig..."
 
 .c.o:
@@ -12,6 +12,9 @@ all: scroller
 
 scroller: scroller.o output.o
 	${GCC} ${CFLAGS} ${LDFLAGS} scroller.o output.o -o scroller
+
+test: test.o output.o
+	${GCC} ${CFLAGS} ${LDFLAGS} test.o output.o -o test
 
 clean:
 	rm -f scroller

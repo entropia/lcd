@@ -5,6 +5,7 @@
 #include <linux/kernel.h> /* printk() */
 #include <linux/fs.h>     /* everything... */
 #include <linux/errno.h>  /* error codes */
+#include <linux/delay.h>
 #include <linux/malloc.h>
 #include <linux/mm.h>
 #include <linux/ioport.h>
@@ -122,12 +123,19 @@ void lcd_init(unsigned long address) {
 
 int lcd_open (struct inode *inode, struct file *filp)
 {
-   unsigned long address = lcd_base + (MINOR(inode->i_rdev)&0x0f);
+   int port = (MINOR(inode->i_rdev)&0x0f);
+   unsigned long address = lcd_base + port;
 
    LDEBUG("lcd_open\n");
    MOD_INC_USE_COUNT;
 
    lcd_init(address);
+
+   lcd_x[port] = LCD_MIN_X;
+   lcd_y[port] = LCD_MIN_Y;
+   lcd_send_command(address, 176 + lcd_y[port]);
+   lcd_send_command(address, 16);
+   lcd_send_command(address, LCD_MIN_X);
 
    return 0;
 }
@@ -163,12 +171,12 @@ ssize_t do_lcd_write (struct inode *inode, struct file *filp, const char *buf,
 
        if (lcd_x[port]++ >= LCD_MAX_X) {
           lcd_x[port] = 0;
-          lcd_send_command(16);
-          lcd_send_command(LCD_MIN_X);
 
           if (lcd_y[port]++ >= LCD_MAX_Y)
              lcd_y[port] = 0;
-          lcd_send_command(176 + lcd_y[port]);
+          lcd_send_command(address, 176 + lcd_y[port]);
+          lcd_send_command(address, 16);
+          lcd_send_command(address, LCD_MIN_X);
        }
 
        wmb();
@@ -202,10 +210,6 @@ struct file_operations lcd_fops = {
 int init_module(void) {
    int result, i;
 
-   for (i=0; i<LCD_PORTS; i++) {
-      lcd_x[i] = lcd_y[i] = 0;
-   }
-   
    lcd_base = base;
 
    LDEBUG("init_module\n");

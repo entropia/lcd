@@ -2,8 +2,7 @@
 #include "output.h"
 
 void main() {
-   clearscreen();
-   putstring("a", 0, 0, 1, 0);
+   putstring("aaaaaaa", 0, 0, 2, 1);
    writescreen();
 }
 
