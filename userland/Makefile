@@ -4,7 +4,7 @@ CFLAGS=-O3 -Wall -g
 LDFLAGS=-lm
 LIBS=
 
-all: hscroller plane scroller2 scroller clock test manuel
+all: hscroller plane scroller2 scroller clock test manuel scroller4
 	@echo "Userland Programme fertig..."
 
 .c.o:
@@ -24,6 +24,9 @@ scroller2: scroller2.o output.o
 
 scroller3: scroller3.o output.o
 	${GCC} ${CFLAGS} ${LDFLAGS} scroller3.o output.o -o scroller3
+
+scroller4: scroller4.o output.o
+	${GCC} ${CFLAGS} ${LDFLAGS} scroller4.o output.o -o scroller4
 
 scroller-tnt: scroller-tnt.o output.o
 	${GCC} ${CFLAGS} ${LDFLAGS} scroller-tnt.o output.o -o scroller-tnt
