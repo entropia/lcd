@@ -13,7 +13,6 @@ char line[12];
 
 void neueletztezeile(int pos) {
     int i;
-    printf("%d\n", pos);
     for (i=0; i<11; i++) {
         line[i] = pos + i >= strlen(text) ? ' ' : text[pos + i];
     }
@@ -38,7 +37,6 @@ void main(int argc, char *argv[]) {
         bottomlinepos--;
         
         if (bottomlinepos<=UNTEN-10) {
-            printf("neue letzte zeile\n");
             textoffset+=11;
             if (textoffset > strlen(text))
                 textoffset = 0;
