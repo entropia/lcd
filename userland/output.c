@@ -130,5 +130,5 @@ void scrollup(int lines) {
     if (lines>=YSIZE) 
         lines=YSIZE-1;
     memmove(&SCR_AT(0,0), &SCR_AT(0, lines), (YSIZE-lines+1)*XSIZE);
-    bzero(&SCR_AT(0, lines), lines*XSIZE);
+    bzero(&SCR_AT(0, YSIZE-lines), lines*XSIZE);
 }
