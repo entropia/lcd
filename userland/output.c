@@ -125,7 +125,10 @@ int stringwidth(char *string, int zoom, int spacing) {
 }
 
 void scrollup(int lines) {
-    if (lines>=YSIZE) lines=YSIZE-1;
+    if (lines == 0)
+        return;
+    if (lines>=YSIZE) 
+        lines=YSIZE-1;
     memmove(&SCR_AT(0,0), &SCR_AT(0, lines), (YSIZE-lines)*XSIZE);
-    bzero(&SCR_AT(0, lines+1), lines*XSIZE);
+    bzero(&SCR_AT(0, lines), lines*XSIZE);
 }
