@@ -4,7 +4,7 @@ CFLAGS=-O3 -Wall -g
 LDFLAGS=-lm
 LIBS=
 
-all: plane scroller scroller2 clock test manuel
+all: hscroller plane scroller2 scroller clock test manuel
 	@echo "Userland Programme fertig..."
 
 .c.o:
@@ -13,8 +13,12 @@ all: plane scroller scroller2 clock test manuel
 plane: plane.o output.o
 	${GCC} ${CFLAGS} ${LDFLAGS} plane.o output.o -o plane
 
+hscroller: hscroller.o output.o
+	${GCC} ${CFLAGS} ${LDFLAGS} hscroller.o output.o -o hscroller
+
 scroller: scroller.o output.o
 	${GCC} ${CFLAGS} ${LDFLAGS} scroller.o output.o -o scroller
+
 scroller2: scroller2.o output.o
 	${GCC} ${CFLAGS} ${LDFLAGS} scroller2.o output.o -o scroller2
 
@@ -34,7 +38,7 @@ pong: pong.o output.o
 	${GCC} ${CFLAGS} ${LDFLAGS} pong.o output.o -o pong
 
 clean:
-	rm -f plane scroller  clock test manuel
+	rm -f hscroller plane scroller  clock test manuel
 	rm -f *.o *~ core
 
 
