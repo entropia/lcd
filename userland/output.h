@@ -4,11 +4,7 @@ void writescreen();
 void clearscreen();
 
 void setpixel(int x, int y);
-#define setpixel_nocheck(x,y) (SCR_AT(x, y)=1)
-
 void unsetpixel(int x, int y);
-#define unsetpixel_nocheck(x,y) (SCR_AT(x, y)=1)
-
 #define putpixel(x, y) setpixel((x), (y))
 
 void putcharacter(char blah, int x, int y, int zoom);

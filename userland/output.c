@@ -11,7 +11,6 @@
 //#define TEST
 #define CLRSCR "\27[2J" // FIXME
 
-
 char screen[XSIZE*YSIZE]; 
 #define SCR_AT(x,y) screen[(x)+(y)*XSIZE]
 
