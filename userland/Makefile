@@ -4,7 +4,7 @@ CFLAGS=-O3 -Wall -g
 LDFLAGS=-lm
 LIBS=
 
-all: scroller test
+all: scroller clock test
 	@echo "Userland Programme fertig..."
 
 .c.o:
@@ -12,6 +12,9 @@ all: scroller test
 
 scroller: scroller.o output.o
 	${GCC} ${CFLAGS} ${LDFLAGS} scroller.o output.o -o scroller
+
+clock: clock.o output.o
+	${GCC} ${CFLAGS} ${LDFLAGS} clock.o output.o -o clock
 
 test: test.o output.o
 	${GCC} ${CFLAGS} ${LDFLAGS} test.o output.o -o test
