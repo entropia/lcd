@@ -31,9 +31,12 @@ void main(int argc, char *argv[]) {
 
     while(1) {
         int i;
+
         scrollup(1);
         bottomlinepos--;
+        
         if (bottomlinepos<=YSIZE-10) {
+            printf("neue letzte zeile\n");
             textoffset+=11;
             if (textoffset > strlen(text))
                 textoffset = 0;
