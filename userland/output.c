@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "../lcd.h"
+#include "output.h"
 
 // Define für asciitest
 //#define TEST

@@ -1,3 +1,5 @@
+#include "../lcd.h"
+
 void writescreen();
 void clearscreen();
 void setpixel(int x, int y);
