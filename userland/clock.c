@@ -14,12 +14,12 @@ int main(int argc, char *argv[]) {
 	t=time(NULL);
         tl=localtime(&t);
 	sprintf(buf, "%02d:%02d", tl->tm_hour, tl->tm_min);
-        putstring(buf, 10,          2,  4, -3);
+        putstring(buf, 10,          2,  2, -3);
 	for (x=0; x<60; x++) {
-		setpixel(10+x, 55);
+		setpixel(10+x, 39);
 		if (x<tl->tm_sec){
-			setpixel(10+x, 56);
-			setpixel(10+x, 56);
+			setpixel(10+x, 40);
+			setpixel(10+x, 41);
 		}
 	}
 	for (x=0; x<20; x++) {
@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
 		
         }
         writescreen();
-        usleep(15000);
+        usleep(500000);
     }
     return 0;
 }

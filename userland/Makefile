@@ -4,7 +4,7 @@ CFLAGS=-O3 -Wall -g
 LDFLAGS=-lm
 LIBS=
 
-all: scroller clock test
+all: scroller clock test manuel
 	@echo "Userland Programme fertig..."
 
 .c.o:
@@ -21,6 +21,9 @@ clock: clock.o output.o
 
 test: test.o output.o
 	${GCC} ${CFLAGS} ${LDFLAGS} test.o output.o -o test
+
+manuel: manuel.o output.o
+	${GCC} ${CFLAGS} ${LDFLAGS} manuel.o output.o -o manuel
 
 clean:
 	rm -f scroller
