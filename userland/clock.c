@@ -24,6 +24,10 @@ int main(int argc, char *argv[]) {
 	}
 	for (x=0; x<20; x++) {
 		setpixel(50+sin(tl->tm_sec/60.0*3.14*2)*x, 33-cos(tl->tm_sec/60.0*3.14*2)*x);
+	for (x=0; x<15; x++) {
+		setpixel(50+sin(tl->tm_min/60.0*3.14*2)*x, 33-cos(tl->tm_min/60.0*3.14*2)*x);
+	for (x=0; x<10; x++) {
+		setpixel(50+sin(tl->tm_hour/60.0*3.14*2)*x, 33-cos(tl->tm_hour/60.0*3.14*2)*x);
 		
         }
 	for (x=0; x<100; x++) {
