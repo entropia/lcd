@@ -29,7 +29,7 @@ manuel: manuel.o output.o
 	${GCC} ${CFLAGS} ${LDFLAGS} manuel.o output.o -o manuel
 
 clean:
-	rm -f scroller
+	rm -f plane scroller  clock test manuel
 	rm -f *.o *~ core
 
 
