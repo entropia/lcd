@@ -15,6 +15,8 @@
 
 #include <asm/io.h>
 
+#include "lcd.h"
+
 #define PORT_BASE 0x378
 
 #define LCD_DEBUG 1
@@ -38,9 +40,9 @@
 #define LCD_SET(adress, sig) outb(inb(adress) | sig, adress)
 #define LCD_UNSET(adress, sig) outb(inb(adress) & ~sig, adress)
 
-#define LCD_MAX_X 105
+#define LCD_MAX_X XSIZE
 #define LCD_MIN_X 11
-#define LCD_MAX_Y 8
+#define LCD_MAX_Y BANKS
 #define LCD_MIN_Y 0
 
 static int major = 253; /* dynamic by default */

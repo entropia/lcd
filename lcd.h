@@ -2,6 +2,6 @@
 
 #define DEVICE "/dev/lcd0"
 #define BANKS 8
-#define XSIZE (115)
+#define XSIZE (105)
 #define YSIZE (BANKS*8)
 

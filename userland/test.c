@@ -2,7 +2,7 @@
 #include "output.h"
 
 void main() {
-   putstring("aaaaaaa", 0, 0, 2, 1);
+   putstring("h4x0r", 0, 0, 2, 0);
    writescreen();
 }
 
