@@ -13,8 +13,8 @@ int main(int argc, char *argv[]) {
         }
         i=(i+1)%1000;
         while (1) {
-            x+=(XSIZE-rand()%3) % XSIZE;
-            y+=(YSIZE-rand()%3) % YSIZE;
+            x=XSIZE+(x-1+rand()%3) % XSIZE;
+            y=YSIZE+(y-1+rand()%3) % YSIZE;
             setpixel(x,y);
             if (rand()%3 == 0)
                 break;
