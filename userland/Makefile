@@ -4,7 +4,7 @@ CFLAGS=-O3 -Wall -g
 LDFLAGS=-lm
 LIBS=
 
-all: plane scroller clock test manuel
+all: plane scroller scroller2 clock test manuel
 	@echo "Userland Programme fertig..."
 
 .c.o:
