@@ -32,7 +32,6 @@ void writescreen() {
             else
                 printf(" ");
         }
-        printf("\n");
     }
 
     printf("\n");

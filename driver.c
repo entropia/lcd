@@ -115,7 +115,7 @@ void lcd_init(unsigned long address) {
    lcd_send_command(address, 163);      /* SelBias9 */
    lcd_send_command(address, 0x2f);     /* VConverterOn */
    lcd_send_command(address, 129);      /* SetEVC */
-   lcd_send_command(address, 20);       /* EVC */
+   lcd_send_command(address, 25);       /* EVC */
    lcd_send_command(address, 175);      /* Dispon */
    lcd_send_command(address, 197);      /* EntDispon */
    lcd_send_command(address, 128+64+8); /* SHLR */
@@ -172,10 +172,10 @@ ssize_t do_lcd_write (struct inode *inode, struct file *filp, const char *buf,
     while (count--) {
        lcd_send_data(address, *(ptr++));
 
-       if (lcd_x[port]++ > LCD_MAX_X) {
+       if (++lcd_x[port] >= LCD_MAX_X) {
           lcd_x[port] = LCD_MIN_X;
 
-          if (lcd_y[port]++ > LCD_MAX_Y)
+          if (++lcd_y[port] >= LCD_MAX_Y)
              lcd_y[port] = 0;
           lcd_send_command(address, 176 + lcd_y[port]);
           lcd_send_command(address, 16);
