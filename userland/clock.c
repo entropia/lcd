@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 #include "output.h"
+#include <math.h>
 
 int main(int argc, char *argv[]) {
     struct tm *tl;
@@ -21,9 +22,9 @@ int main(int argc, char *argv[]) {
 			setpixel(10+x, 56);
 		}
 	}
-	for (x=0, x<20; x++) {
+	for (x=0; x<20; x++) {
 		setpixel(sin(tl->tm_sec/60.0)*x+50, cos(tl->tm_sec/60.0)*x+33);
-		}
+		
         }
         writescreen();
         usleep(15000);
