@@ -123,3 +123,7 @@ void putstring(char *string, int x, int y, int zoom, int spacing) {
 int stringwidth(char *string, int zoom, int spacing) {
     return (zoom*8+spacing)*strlen(string);
 }
+
+void scrollup(int lines) {
+    memmove(&SCR_AT(0, lines), SCR_AT(0,0), XSIZE*lines);
+}

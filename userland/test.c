@@ -2,7 +2,8 @@
 #include "output.h"
 
 void main() {
-   putstring("h4x0r", 0, 0, 2, 0);
+   putstring("Sende",10, 8, 2, 0);
+   putstring("pause",10,24, 2, 0);
    writescreen();
 }
 
