@@ -132,8 +132,6 @@ int lcd_open (struct inode *inode, struct file *filp)
    LDEBUG("lcd_open\n");
    MOD_INC_USE_COUNT;
 
-   lcd_init(address);
-
    lcd_x[port] = LCD_MIN_X;
    lcd_y[port] = LCD_MIN_Y;
    lcd_send_command(address, 176 + lcd_y[port]);
@@ -228,6 +226,8 @@ int init_module(void) {
       release_region(lcd_base, 3);
       return result;
    }
+
+   lcd_init(PORT_BASE);
 
    return 0;
 }
