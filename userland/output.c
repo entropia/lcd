@@ -79,7 +79,7 @@ void unsetpixel(int x, int y) {
 }
 
 void setblock(int x1, int y1, int x2, int y2) {
-    int y;
+    int x,y;
     if (x1>x2 || y1>y2)
         return;
     if (x1<0) x1=0;
