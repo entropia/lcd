@@ -22,6 +22,9 @@ scroller: scroller.o output.o
 scroller2: scroller2.o output.o
 	${GCC} ${CFLAGS} ${LDFLAGS} scroller2.o output.o -o scroller2
 
+scroller3: scroller3.o output.o
+	${GCC} ${CFLAGS} ${LDFLAGS} scroller3.o output.o -o scroller3
+
 scroller-tnt: scroller-tnt.o output.o
 	${GCC} ${CFLAGS} ${LDFLAGS} scroller-tnt.o output.o -o scroller-tnt
 
