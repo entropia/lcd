@@ -45,7 +45,7 @@ void main(int argc, char *argv[]) {
             neueletztezeile(textoffset);
         }
         for (i=0; i<11; i++) {
-            putcharacter(line[i], 6+i*9, bottomlinepos, 1);
+            putcharacter(line[i], 4+i*9, bottomlinepos, 1);
         }
         writescreen();
         usleep(150000);
