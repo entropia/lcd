@@ -172,10 +172,10 @@ ssize_t do_lcd_write (struct inode *inode, struct file *filp, const char *buf,
     while (count--) {
        lcd_send_data(address, *(ptr++));
 
-       if (lcd_x[port]++ >= LCD_MAX_X) {
+       if (lcd_x[port]++ > LCD_MAX_X) {
           lcd_x[port] = LCD_MIN_X;
 
-          if (lcd_y[port]++ >= LCD_MAX_Y)
+          if (lcd_y[port]++ > LCD_MAX_Y)
              lcd_y[port] = 0;
           lcd_send_command(address, 176 + lcd_y[port]);
           lcd_send_command(address, 16);
