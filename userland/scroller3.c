@@ -10,9 +10,9 @@ int main(int argc, char *argv[]) {
         exit(-42);
     }
     
-    strwidth = stringwidth(argv[1], 1, 1);
+    strwidth = stringwidth(argv[3], 1, 1);
 
-    for (j=0; j< strwidth*4 ; j++) {   
+    for (j=0; j< strwidth ; j++) {   
        clearscreen();
        putstring(argv[1],0,8*0,2,-2);   
        putstring(argv[2],0,8*2,2,-2);   
